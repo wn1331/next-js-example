@@ -3,6 +3,7 @@ import {UserRepository} from '../repository/user.repository';
 import {CreateUserReqDto} from '../dto/user.signupreqdto';
 import {LoginUserReqDto} from '../dto/user.loginreqdto';
 import {LoginUserResDto} from '../dto/user.loginresdto';
+import {User} from "../entity/user.entity";
 
 @Injectable()
 export class UserService {
@@ -19,11 +20,19 @@ export class UserService {
         const user = await this.userRepository.getUser(loginData);
         if (user != null) {
             return {
+                //new 연산자를 사용 안한 방법
                 id: user.id,
-                status: 'SUCCESS'
+                status: 'SUCCESS',
             }
         } else {
+            //new 연산자를 사용한 방법
             return new LoginUserResDto(null, 'FAILURE');
         }
+    }
+    async getUsers(){
+        return this.userRepository.getUsers();
+    }
+    async findOne(username: string): Promise<User | undefined> {
+        return (await this.getUsers()).find(user => user.username === username);
     }
 }
