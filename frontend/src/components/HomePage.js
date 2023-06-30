@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../style/HomePage.css'
-import axios from "axios";
+
 function HomePage() {
     const navigate = useNavigate();
 
-    const [user, setUser] = useState(null);
+    // const [user, setUser] = useState(null);
 
 
     const navigateToUserList = () => {
@@ -29,23 +29,12 @@ function HomePage() {
     }
 
     useEffect(() => {
-        const token = localStorage.getItem('userToken');
 
-        if(token) {
-            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-            axios.get('/user/auth')
-                .then(response => {
-                    setUser(response.data);
-                })
-                .catch(error => {
-                    console.error('There was an error!', error);
-                });
-        }
     }, []);
 
     return (
         <div>
-            {user ? <p>Welcome back, {user.name}!</p> : <p>Please log in.</p>}
+            {/*{user ? <p>Welcome back, {user.name}!</p> : <p>Please log in.</p>}*/}
             <div>
                 <h1>Home</h1>
                 <button onClick={navigateToUserList}>Go to User List</button>

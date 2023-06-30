@@ -10,21 +10,20 @@ function LoginForm() {
         e.preventDefault();
         // 로그인 처리 로직
         try {
-            const response = await axios.post("/user/login", {username, password});
+            const response = await axios.post("/auth/login", {username, password});
             console.log(response.data); // 서버로부터 받은 응답 데이터 처리
 
             const data = response.data;
             localStorage.setItem('userToken', data.token);
 
-            alert(response.data.status);
-            if(response.data.status==="FAILURE"){
-                return;
-            }
+            alert("Login successful");
+
             navigate('/home')
         } catch (error) {
+            alert("Login Error");
             console.error(error);
         }
-        // 로그인 성공 또는 실패에 따른 처리 진행
+
     };
     const signUpButtonClick = (e) => {
         e.preventDefault();

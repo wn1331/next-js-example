@@ -1,19 +1,34 @@
-
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { UserService } from '../service/user.service';
+import {Injectable, UnauthorizedException} from '@nestjs/common';
+import {UserService} from './user.service';
+import {JwtService} from '@nestjs/jwt'
 
 @Injectable()
 export class AuthService {
-    constructor(private userService: UserService) {}
+    constructor(private userService: UserService,
+                private jwtService: JwtService
+    ) {
+    }
 
     async signIn(username: string, pass: string): Promise<any> {
+        //여기서 에러 터지면 username 없음 에러
         const user = await this.userService.findOne(username);
-        if (user?.password !== pass) {
-            throw new UnauthorizedException();
+        if (!user) {
+            throw new UnauthorizedException('User not found');
         }
-        const { password, ...result } = user;
+        if (user?.password !== pass) {
+            //비밀번호 오류 에러
+            throw new UnauthorizedException('Passwords do not match');
+        }
+
+        // password 변수에 user.password 값을 할당합니다.
+        // ...result는 user 객체에서 password를 제외한 모든 나머지 속성들을 result 객체에 할당합니다.
+        const {password, ...result} = user;
+        const payload = {id: user.id, username: user.username}
         // TODO: Generate a JWT and return it here
         // instead of the user object
-        return result;
+
+        return {
+            access_token :await this.jwtService.signAsync(payload),
+        };
     }
 }

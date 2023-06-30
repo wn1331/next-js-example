@@ -1,10 +1,8 @@
 import {Injectable} from '@nestjs/common';
 import {UserRepository} from '../repository/user.repository';
 import {CreateUserReqDto} from '../dto/user.signupreqdto';
-import {LoginUserReqDto} from '../dto/user.loginreqdto';
-import {LoginUserResDto} from '../dto/user.loginresdto';
-import {User} from "../entity/user.entity";
 
+export type User = any;
 @Injectable()
 export class UserService {
     constructor(private readonly userRepository: UserRepository) {
@@ -16,22 +14,10 @@ export class UserService {
         return this.userRepository.createUser(userData); // UserRepository를 통해 사용자 저장 및 반환
     }
 
-    async postLogin(loginData: LoginUserReqDto) {
-        const user = await this.userRepository.getUser(loginData);
-        if (user != null) {
-            return {
-                //new 연산자를 사용 안한 방법
-                id: user.id,
-                status: 'SUCCESS',
-            }
-        } else {
-            //new 연산자를 사용한 방법
-            return new LoginUserResDto(null, 'FAILURE');
-        }
-    }
     async getUsers(){
         return this.userRepository.getUsers();
     }
+    //username이 있나 확인하는 메소드 있으면가져옴
     async findOne(username: string): Promise<User | undefined> {
         return (await this.getUsers()).find(user => user.username === username);
     }
