@@ -1,6 +1,7 @@
 import {Injectable} from '@nestjs/common';
-import {UserRepository} from '../repository/user.repository';
-import {CreateUserReqDto} from '../dto/user.signupreqdto';
+import {UserRepository} from './user.repository';
+import {CreateUserReqDto} from './user.signupreqdto';
+import {Role} from "../role/role.enum";
 
 export type User = any;
 @Injectable()

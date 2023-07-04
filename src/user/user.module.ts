@@ -1,9 +1,9 @@
 import {Module} from '@nestjs/common';
 import {TypeOrmModule} from '@nestjs/typeorm';
-import {UserController} from '../controller/user.controller';
-import {User} from '../entity/user.entity';
-import {UserService} from '../service/user.service';
-import {UserRepository} from '../repository/user.repository';
+import {UserController} from './user.controller';
+import {User} from './user.entity';
+import {UserService} from './user.service';
+import {UserRepository} from './user.repository';
 
 @Module({
     imports: [
@@ -16,6 +16,7 @@ import {UserRepository} from '../repository/user.repository';
             database: 'postgres',
             entities: [User],
             synchronize: true,
+            logging:true,
         }),
         TypeOrmModule.forFeature([User, UserRepository]),
     ],

@@ -1,5 +1,5 @@
 import {Injectable, UnauthorizedException} from '@nestjs/common';
-import {UserService} from './user.service';
+import {UserService} from '../user/user.service';
 import {JwtService} from '@nestjs/jwt'
 
 @Injectable()
@@ -22,13 +22,14 @@ export class AuthService {
 
         // password 변수에 user.password 값을 할당합니다.
         // ...result는 user 객체에서 password를 제외한 모든 나머지 속성들을 result 객체에 할당합니다.
-        const {password, ...result} = user;
-        const payload = {id: user.id, username: user.username}
-        // TODO: Generate a JWT and return it here
-        // instead of the user object
+        // const {password, ...result} = user;
+        const payload = {
+            id: user.id,
+            username: user.username
+        }
 
         return {
-            access_token :await this.jwtService.signAsync(payload),
+            access_token: await this.jwtService.signAsync(payload),
         };
     }
 }
