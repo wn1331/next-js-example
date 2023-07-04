@@ -20,6 +20,7 @@ export class UserService {
     }
     //username이 있나 확인하는 메소드 있으면가져옴
     async findOne(username: string): Promise<User | undefined> {
-        return (await this.getUsers()).find(user => user.username === username);
+        return await this.userRepository.findByName(username);
+        // return (await this.getUsers()).find(user => user.username === username);
     }
 }

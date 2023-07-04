@@ -11,6 +11,11 @@ export class UserRepository {
         private readonly repository: Repository<User>,
     ) {
     }
+    async findByName(name: string){
+        return await this.repository.createQueryBuilder('user')
+            .where('user.username = :username',{username:name})
+            .getOne();
+    }
 
     async createUser(user: CreateUserReqDto): Promise<User> {
         return this.repository.save(user);
